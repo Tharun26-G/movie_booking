@@ -1,4 +1,5 @@
-import React, {useState} from 'react'
+import React, { useEffect, useState } from 'react'
+import axios from 'axios'
 
 import EntertainmentCardSlider from '../components/Entertainment/EntertainmentCard.Component'
 import HeroCarousel from '../components/HeroCarousel/HeroCarousel.Component'
@@ -9,6 +10,33 @@ const HomePage = () => {
   const [recommendedMovies, setRecommendedMovies] = useState([]);
    const [premierMovies, setPremierMovies] = useState([]);
   const [onlineStreamEvents, setOnlineStreamEvents] = useState([]);
+
+   useEffect(() => {
+    const requestPopularMovies = async () => {
+      const getPopularMovies = await axios.get("https://api.themoviedb.org/3/movie/popular?api_key=b7df10c5335d816eeb3691d76f9b7652");
+      setRecommendedMovies(getPopularMovies.data.results);
+    };
+
+    requestPopularMovies();
+  }, []);
+
+  useEffect(() => {
+    const requestTopRatedMovies = async () => {
+      const getTopRatedMovies = await axios.get("https://api.themoviedb.org/3/movie/top_rated?api_key=b7df10c5335d816eeb3691d76f9b7652");
+      setPremierMovies(getTopRatedMovies.data.results);
+    };
+
+    requestTopRatedMovies();
+  }, []);
+
+  useEffect(() => {
+    const requestUpcomingMovies = async () => {
+      const getUpcomingMovies = await axios.get("https://api.themoviedb.org/3/movie/upcoming?api_key=b7df10c5335d816eeb3691d76f9b7652");
+      setOnlineStreamEvents(getUpcomingMovies.data.results);
+    };
+
+    requestUpcomingMovies();
+  }, []);
 
 
   return (<>
